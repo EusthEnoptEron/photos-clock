@@ -1,6 +1,6 @@
 <svg>
-  <rect id="background" />
-  <image id="bg-image" pointer-events="visible" />
+  <rect id="background" pointer-events="visible" />
+  <image id="bg-image" pointer-events="none" />
   <!-- <gradientRect x="0" y="0" width="100%" height="100%"
     gradient-type="radial"
     gradient-x1="50%" gradient-y1="50%"

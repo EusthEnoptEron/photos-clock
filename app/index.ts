@@ -59,7 +59,9 @@ function initBG() {
 
   let lastRefreshTime = 0;
   let lastClickTime = 0;
-  bgImage.onclick = function() {
+  
+
+  background.onclick = () => {
     const clickTime = new Date().getTime();
     if((clickTime - lastClickTime) < 250 && (clickTime - lastRefreshTime) > 1000) {
       lastRefreshTime = clickTime;
