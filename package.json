@@ -1,0 +1,37 @@
+{
+  "name": "photos-clock",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "devDependencies": {
+    "@fitbit/sdk": "~6.1.0",
+    "@fitbit/sdk-cli": "^1.7.3",
+    "@types/node": "^18.0.6",
+    "dotenv": "^16.0.1",
+    "fitbit-sdk-types": "^7.0.5"
+  },
+  "fitbit": {
+    "appUUID": "f8d9548e-7e15-44bb-89de-2403e0e30d04",
+    "appType": "clockface",
+    "appDisplayName": "Photos Clock",
+    "iconFile": "resources/icon.png",
+    "wipeColor": "#ffffff",
+    "requestedPermissions": [
+      "access_internet"
+    ],
+    "buildTargets": [
+      "atlas",
+      "vulcan"
+    ],
+    "i18n": {},
+    "defaultLanguage": "en-US"
+  },
+  "scripts": {
+    "config": "node config.mjs",
+    "build": "npm run config && fitbit-build",
+    "debug": "fitbit"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.4"
+  }
+}

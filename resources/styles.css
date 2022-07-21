@@ -1,0 +1,56 @@
+
+#background {
+  fill: black;
+  width: 100%;
+  height: 100%;
+}
+
+#bg-image {
+  width: 100%;
+  height: 100%;
+}
+
+#myLabel {
+  font-size: 80;
+  font-family: System-Bold;
+  text-length: 32;
+  text-anchor: middle;
+  x: 50%;
+  y: 50%+40;
+  fill: white;
+
+}
+
+
+#album-name {
+  font-size: 20;
+  text-anchor: middle;
+  x: 50%;
+  y: 75%;
+  text-length: 32;
+
+  fill: white;
+
+}
+
+#photo-date {
+  font-size: 18;
+  text-anchor: start;
+  x: 50%;
+  y: 82%;
+  text-length: 32;
+  font-family: System-Light;
+
+  fill: white;
+
+}
+
+#current-date {
+  font-size: 20;
+  text-anchor: middle;
+  x: 50%;
+  y: 37%;
+  text-length: 32;
+
+  fill: white;
+}

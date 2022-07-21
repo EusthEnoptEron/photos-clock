@@ -1,0 +1,22 @@
+<svg>
+  <rect id="background" />
+  <image id="bg-image" pointer-events="visible" />
+  <!-- <gradientRect x="0" y="0" width="100%" height="100%"
+    gradient-type="radial"
+    gradient-x1="50%" gradient-y1="50%"
+    gradient-x2="120%" gradient-y2="120%"
+    gradient-color1="black"
+    gradient-color2="black"
+    gradient-opacity1="1.0"
+    gradient-opacity2="0.5"
+
+    /> -->
+  <rect x="0" width="100%" y="0" height="100%" fill="black" opacity="0.25" pointer-events="none" />
+
+  <rect x="0" width="100%" y="50%-12%+15" height="24%" fill="black" opacity="0.25" />
+  <text id="myLabel" />
+  <text id="album-name" />
+  <text id="photo-date" />
+  <text id="current-date" />
+  
+</svg>
