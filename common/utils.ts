@@ -7,6 +7,10 @@ export function zeroPad(i) {
   }
   
 
+export function getImageFilename(index: number): string {
+  return `image_${index}.jpg`;
+}
+
 // Convert a number to a special monospace number
 export function monoDigits(num, pad = true) {
   let monoNum = '';

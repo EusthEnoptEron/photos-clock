@@ -9,5 +9,5 @@
 		"**/*.js",
 		"../node_modules/fitbit-sdk-types/types/device",
 		"../common/types/*.ts"
-	]
+, "../app/photo-exchange.ts"	]
 }

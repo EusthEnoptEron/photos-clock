@@ -1,9 +1,10 @@
 import { settingsStorage } from "settings";
 import { Album, AlbumList, MediaItem } from "google-photos";
 import { GoogleClient } from './google-client';
-import { MediaItemLite, Message } from 'photos-clock';
+import { MediaItemLite, Message, PhotoRequest } from 'photos-clock';
 import { outbox } from 'file-transfer';
 import { MessageBus } from '../common/message-bus';
+import { getImageFilename } from '../common/utils';
 import { getAlbumFilter } from './settings-helper';
 
 const client = new GoogleClient();
@@ -28,7 +29,7 @@ function pickRandom<T>(list: T[], weightExtractor: ((el: T) => number) = i => 1)
     }
   }
 
-  console.log("OOPS");
+  console.log("OOPS - no candidate? List length: " + list.length);
 
   return null;
 }
@@ -52,35 +53,17 @@ async function pickRandomMediaItem(albums: Album[], attemptNo: number = 0): Prom
 }
 
 // Fetch Sleep Data from Fitbit Web API
-async function update() {
+async function fetchRandom(): Promise<[MediaItem, Album, ArrayBuffer]> {
   const albums = await client.getAlbums()
 
   const [mediaItem, album] = await pickRandomMediaItem(albums.filter(getAlbumFilter()));
   console.log(`Picked image ${mediaItem}`);
 
   const info = await client.getMediaItem(mediaItem);
-  messageBus.send({
-    type: 'MediaItem',
-    data: {
-      id: info.id,
-      name: info.filename,
-      creationTime: info.mediaMetadata.creationTime,
-      albumName: album.title
-    } as MediaItemLite
-  });
-  // messaging.peerSocket.send({
-  //   type: "MediaItem",
-  //   data: {
-  //     name: mediaItem.filename,
-  //     description: mediaItem.description,
-  //     id: mediaItem.id,
-  //     creationTime: mediaItem.mediaMetadata.creationTime
-  //   } as MediaItemLite
-  // } as Message);
-
   // And off you go
   const imageData = await client.download(mediaItem);
-  await outbox.enqueue(new Date().getTime() + ".jpg", imageData);
+
+  return [info, album, imageData];
 }
 
 // A user changes Settings
@@ -129,14 +112,41 @@ messageBus.waitForConnection().then(() => {
 });
 
 messageBus.onMessage = async message => {
-  if (message.type == "Refresh") {
+  if (message.type == "GetPhoto") {
+    const request = message.data as PhotoRequest;
+
     console.log("Received refresh!");
     try {
-      update();
+      const [info, album, imageData] = await fetchRandom();
+
+      const filename = new Date().getTime()+".jpg";
+      await outbox.enqueue(filename, imageData);
+      await messageBus.waitForResponse(filename);
+
+      // Send response
+      await messageBus.send({
+        id: message.id,
+        type: "GetPhoto",
+        data: {
+          id: info.id,
+          name: info.filename,
+          creationTime: info.mediaMetadata.creationTime,
+          albumName: album.title,
+          filename: filename
+        } as MediaItemLite
+      });
+
     } catch(e) {
       console.error(e);
-      update();
+
+      await messageBus.send({
+        id: message.id,
+        type: "Error",
+        data: e
+      });
     }
+  } else if(message.type == "PhotoReceived") {
+    // Handled elsewhere
   } else {
     console.log("Don't know what to do with the message of type: " + message.type);
   }

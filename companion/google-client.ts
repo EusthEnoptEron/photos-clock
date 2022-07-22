@@ -36,7 +36,7 @@ export class GoogleClient {
                 'Authorization': `Bearer ${this.accessToken}`
             }
         });
-        if (result.status == 401) {
+        if (result.status == 401 && this.refreshToken) {
             // Login!
             console.log("Refreshing token...");
             const body = `grant_type=refresh_token&refresh_token=${this.refreshToken}&client_id=${environment.clientId}&client_secret=${environment.clientSecret}`;
