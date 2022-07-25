@@ -1,6 +1,6 @@
 # photos-clock
 
-A simple clockface for Fitbit that pulls photos from your Google Photos albums whenever you double tap.
+A simple clockface for Fitbit that pulls photos from your Google Photos albums whenever you double tap. 
 
 ## Blacklisting / Whitelisting
 
